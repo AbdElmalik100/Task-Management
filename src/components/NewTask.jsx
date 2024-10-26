@@ -25,7 +25,7 @@ const NewTask = () => {
     const { register, handleSubmit, reset, setValue, clearErrors, formState: { errors } } = useForm({
         resolver: yupResolver(taskSchema),
         defaultValues: {
-            id: generateRandomNumber(),
+            id: "",
             created_at: Date.now(),
             image: null,
             title: "",
@@ -51,7 +51,8 @@ const NewTask = () => {
 
 
     const formSubmission = async (task) => {
-        dispatch(createTask(task))
+        const taskData = {...task, id: generateRandomNumber()}
+        dispatch(createTask(taskData))
         close()
     }
 
