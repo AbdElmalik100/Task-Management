@@ -50,7 +50,7 @@ const tasksSlice = createSlice({
 
         // Delete a task by ID and update localStorage and state categories accordingly.
         deleteTask: (state, action) => {
-            state.tasks = state.tasks.filter(task => task.id !== action.payload.id)
+            state.tasks = state.tasks.filter(task => task.id != action.payload.id)
 
             // Re-categorize tasks after the update
             state.todo = state.tasks.filter(task => task.state === 'todo')
