@@ -12,12 +12,16 @@ import { generateRandomNumber } from "../utils"
 const NewTask = () => {
     const [openMenu, setOpenMenu] = useState(false)
     const dispatch = useDispatch()
+
+    // Yup validation schema for the form fields
     const taskSchema = object({
         title: string().required("This field is required"),
         description: string().required("This field is required"),
         priority: string().required("This field is required"),
         state: string().required("This field is required")
     });
+
+    // Initialize form with default values and validation resolver
     const { register, handleSubmit, reset, setValue, clearErrors, formState: { errors } } = useForm({
         resolver: yupResolver(taskSchema),
         defaultValues: {
@@ -30,15 +34,17 @@ const NewTask = () => {
             state: "",
         }
     })
+    // Close the menu when clicking outside
     const menu = useClickAway(() => {
         setOpenMenu(false)
     })
     const [imagePreview, setImagePreview] = useState("")
 
 
+    // Handle the file change and display preview
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        
+
         setValue("image", URL.createObjectURL(file));
         setImagePreview(URL.createObjectURL(file));
     };
@@ -49,12 +55,14 @@ const NewTask = () => {
         close()
     }
 
+    // Close the form, clear image preview, and reset fields
     const close = () => {
         setOpenMenu(false)
         setImagePreview("")
         reset()
     }
 
+    // Clear errors and reset form when menu opens/closes
     useEffect(() => {
         clearErrors()
         reset()

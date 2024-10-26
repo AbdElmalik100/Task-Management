@@ -9,6 +9,7 @@ const tasksSlice = createSlice({
         done: []
     },
     reducers: {
+        // Load tasks from localStorage and categorize them into todo, doing, and done.
         getTasks: (state) => {
             const tasks = JSON.parse(localStorage.getItem("tasks"))
 
@@ -20,6 +21,8 @@ const tasksSlice = createSlice({
                 state.done = tasks.filter(task => task.state === 'done')
             }
         },
+
+        // Create a new task and save it in both state and localStorage.
         createTask: (state, action) => {
             const newTask = [...state.tasks, action.payload]
             state.tasks = newTask
@@ -30,24 +33,35 @@ const tasksSlice = createSlice({
 
             localStorage.setItem("tasks", JSON.stringify(newTask))
         },
+
+        // Update an existing task, saving changes to both state and localStorage.
         updateTask: (state, action) => {
+            // Replace the task with matching ID with the new data from action.payload
             state.tasks = state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
 
+            // Re-categorize tasks after the update
             state.todo = state.tasks.filter(task => task.state === 'todo')
             state.doing = state.tasks.filter(task => task.state === 'doing')
             state.done = state.tasks.filter(task => task.state === 'done')
 
+            // Persist the updated tasks list in localStorage
             localStorage.setItem("tasks", JSON.stringify(state.tasks))
         },
+
+        // Delete a task by ID and update localStorage and state categories accordingly.
         deleteTask: (state, action) => {
             state.tasks = state.tasks.filter(task => task.id !== action.payload.id)
 
+            // Re-categorize tasks after the update
             state.todo = state.tasks.filter(task => task.state === 'todo')
             state.doing = state.tasks.filter(task => task.state === 'doing')
             state.done = state.tasks.filter(task => task.state === 'done')
 
+            // Persist the updated tasks list in localStorage
             localStorage.setItem("tasks", JSON.stringify(state.tasks))
         },
+
+        // Search tasks by title and filter results across todo, doing, and done lists.
         searchByTitle: (state, action) => {
             const tasks = JSON.parse(localStorage.getItem("tasks"))
             if (action.payload) {
@@ -64,6 +78,8 @@ const tasksSlice = createSlice({
                 state.done = state.tasks.filter(task => task.state === 'done')
             }
         },
+
+        // Filter tasks by priority and/or state, updating each list accordingly.
         filterTasks: (state, action) => {
             const tasks = JSON.parse(localStorage.getItem("tasks"))
             const { priority, state: taskState } = action.payload;
@@ -89,6 +105,8 @@ const tasksSlice = createSlice({
                 state.done = state.tasks.length > 0 ? state.tasks.filter(task => task.state === 'done') : []
             }
         },
+
+        // Moving tasks from board to another board by mutating the states
         moveTask: (state, action) => {
             const { taskId, targetState } = action.payload;
 

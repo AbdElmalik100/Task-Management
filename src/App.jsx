@@ -1,18 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import NewTask from './components/NewTask'
-import { useDispatch, useSelector } from 'react-redux'
-import TaskCard from './components/TaskCard'
+import { useDispatch } from 'react-redux'
 import { getTasks } from './store/slices/tasksSlice'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { AnimatePresence, motion } from 'framer-motion'
 import Filters from './components/Filters'
 import KanbanBoard from './components/KanbanBoard'
 
 
 function App() {
-  const { tasks } = useSelector(state => state.tasks)
   const dispatch = useDispatch()
-
 
   useEffect(() => {
     dispatch(getTasks())
@@ -34,34 +29,6 @@ function App() {
           <NewTask></NewTask>
         </div>
         <Filters></Filters>
-        {/* <div className="tasks mt-8 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5">
-          {
-            tasks.length > 0
-              ?
-              <AnimatePresence>
-                {
-                  tasks.map((task, index) => (
-                    <TaskCard key={index} index={index} task={task}></TaskCard>
-                  ))
-                }
-              </AnimatePresence>
-              :
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ ease: "easeOut", duration: 0.2 }}
-                className='py-32 grid place-items-center col-span-4'
-              >
-                <div className='flex flex-col gap-2 items-center'>
-                  <img className='w-60' src="/notes.png" alt="Notes" />
-                  <h3 className='text-2xl mt-4 text-neutral-200 font-medium'>No tasks yet</h3>
-                  <p className='text-neutral-300 mb-4'>Create one now and save what's in your mind.</p>
-                  <NewTask></NewTask>
-                </div>
-              </motion.div>
-          }
-        </div> */}
         <KanbanBoard></KanbanBoard>
       </div>
     </main>

@@ -10,44 +10,41 @@ import { updateTask } from '../store/slices/tasksSlice'
 
 const Edit = ({ openEdit, setOpenEdit, task }) => {
     const dispatch = useDispatch()
+
+    // Define the validation schema for form fields using Yup
     const taskSchema = object({
         title: string().required("This field is required"),
         description: string().required("This field is required"),
         priority: string().required("This field is required"),
         state: string().required("This field is required")
     });
+
+    // Configure react-hook-form with Yup resolver and set initial form values from task data
     const { register, handleSubmit, reset, setValue, clearErrors, formState: { errors } } = useForm({
         resolver: yupResolver(taskSchema),
-        defaultValues: {...task}
+        defaultValues: { ...task }
     })
+
+    // Ref to close modal if clicking outside the component
     const editRef = useClickAway(() => {
         setOpenEdit(false)
     })
     const [imagePreview, setImagePreview] = useState(task.image)
 
-
+    // Handle file input change, updating image preview and form value
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        // const reader = new FileReader();
-        // reader.readAsDataURL(file);
-        // reader.onloadend = () => {
-        //     const base64String = reader.result;
-        //     setValue("image", URL.createObjectURL(file));
-        //     setImagePreview(URL.createObjectURL(file));
-        // };
-        // reader.onerror = (error) => {
-        //     console.error("Error reading file:", error);
-        // };
-            setValue("image", URL.createObjectURL(file));
-            setImagePreview(URL.createObjectURL(file));
+        setValue("image", URL.createObjectURL(file));
+        setImagePreview(URL.createObjectURL(file));
     };
 
-
-    const formSubmission = async (task) => {        
+    // Handle form submission, dispatching update task action
+    const formSubmission = async (task) => {
         dispatch(updateTask(task))
         setOpenEdit(false)
     }
 
+    // Close function to reset form and clear validation errors
     const close = () => {
         setOpenEdit(false)
         setImagePreview(task.image || "")
@@ -55,6 +52,7 @@ const Edit = ({ openEdit, setOpenEdit, task }) => {
         clearErrors()
     }
 
+    // Reset the form and image preview when modal opens or closes
     useEffect(() => {
         setImagePreview(task.image || "")
         reset(task)

@@ -35,7 +35,6 @@ const TaskCard = ({ task, index }) => {
                 <TaskMenu task={task}></TaskMenu>
             </div>
             <div className="info mt-4 p-2 flex flex-col flex-1">
-                {/* <span className='block p-1 w-fit uppercase mb-3 font-bold text-xs px-3 rounded-full bg-neutral-400'>{task.state}</span> */}
                 <h2 className='text-xl font-bold capitalize'>{task.title}</h2>
                 <p className='text-neutral-300 capitalize mt-1 mb-3'>{task.description}</p>
                 <span className='text-end block text-neutral-400 text-xs mt-auto'>{new Date(task.created_at).toDateString()}</span>

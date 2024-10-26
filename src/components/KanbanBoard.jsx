@@ -8,6 +8,7 @@ const KanbanBoard = () => {
     const dispatch = useDispatch();
     const { todo, doing, done } = useSelector(state => state.tasks);
 
+    // Handles task drop events to move task to a specified board
     const handleDrop = (e, targetState) => {
         const target = e.target
         if (target.className.includes("board")) target.classList.remove("bg-slate-500")
@@ -18,6 +19,7 @@ const KanbanBoard = () => {
         e.preventDefault();
     };
 
+    // Allows task drop by adding a highlight background on valid board areas
     const allowDrop = (e) => {
         const target = e.target
         if (target.className.includes("todo-board") || target.className.includes("done-board") || target.className.includes("doing-board")) target.classList.add("bg-slate-500")
@@ -25,6 +27,7 @@ const KanbanBoard = () => {
         e.preventDefault();
     };
 
+    // Removes highlight background when a dragged item leaves the board area
     const drageLeave = (e) => {
         const target = e.target
         if (target.className.includes("board")) target.classList.remove("bg-slate-500")
@@ -47,6 +50,7 @@ const KanbanBoard = () => {
                     Todo <span className='text-xs text-neutral-300 font-normal'>({todo.length})</span>
                 </h2>
                 {
+                    // Display list of "Todo" tasks if there are any
                     todo.length > 0 && (
                         <div className='tasks mt-4 flex flex-col gap-4'>
                             {todo.map((task, index) => (
@@ -72,6 +76,7 @@ const KanbanBoard = () => {
                     Doing <span className='text-xs text-neutral-300 font-normal'>({doing.length})</span>
                 </h2>
                 {
+                    // Display list of "Doing" tasks if there are any
                     doing.length > 0 && (
                         <div className='tasks mt-4 flex flex-col gap-4'>
                             {doing.map((task, index) => (
@@ -97,6 +102,7 @@ const KanbanBoard = () => {
                     Done <span className='text-xs text-neutral-300 font-normal'>({done.length})</span>
                 </h2>
                 {
+                    // Display list of "Done" tasks if there are any
                     done.length > 0 && (
                         <div className='tasks mt-4 flex flex-col gap-4'>
                             {done.map((task, index) => (
