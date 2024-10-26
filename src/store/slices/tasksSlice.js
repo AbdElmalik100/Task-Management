@@ -37,7 +37,7 @@ const tasksSlice = createSlice({
         // Update an existing task, saving changes to both state and localStorage.
         updateTask: (state, action) => {
             // Replace the task with matching ID with the new data from action.payload
-            state.tasks = state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
+            state.tasks = state.tasks.map(task => task.id == action.payload.id ? action.payload : task)
 
             // Re-categorize tasks after the update
             state.todo = state.tasks.filter(task => task.state === 'todo')
